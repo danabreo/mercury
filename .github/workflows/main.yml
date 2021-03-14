@@ -1,0 +1,22 @@
+name: Code Quality Check
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  code-quality-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: 'Install Dependencies'
+        run: npm ci
+
+      - name: 'Run eslint + prettier'
+        run: npm run lint
