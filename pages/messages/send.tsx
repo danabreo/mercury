@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Field, Form } from 'formik';
 import Link from 'next/link';
 import styles from '../../styles/Home.module.css';
+import EmailStatusIndicator, { EmailStatus } from './indicator';
 
 export default function SendEmail(): JSX.Element {
+  const [currEmailStatus, setCurrEmailStatus] = useState(EmailStatus.DRAFT);
   return (
     <main className={styles.main}>
       <h1>Send an email</h1>
@@ -15,7 +17,8 @@ export default function SendEmail(): JSX.Element {
           subject: '',
           text: '',
         }}
-        onSubmit={async (values) => {
+        onSubmit={async (values, actions) => {
+          setCurrEmailStatus(EmailStatus.SENDING);
           const res = await fetch('/api/messages/send', {
             body: JSON.stringify(values),
             headers: {
@@ -23,8 +26,15 @@ export default function SendEmail(): JSX.Element {
             },
             method: 'POST',
           });
-          const result = await res.json();
-          console.log(result);
+          if (res.status == 200) {
+            setCurrEmailStatus(EmailStatus.QUEUED);
+            setTimeout(() => {
+              actions.resetForm();
+              setCurrEmailStatus(EmailStatus.DRAFT);
+            }, 5000);
+          } else {
+            setCurrEmailStatus(EmailStatus.FAILED);
+          }
         }}
       >
         {({ isSubmitting }) => (
@@ -57,6 +67,10 @@ export default function SendEmail(): JSX.Element {
           </Form>
         )}
       </Formik>
+
+      <div>
+        <EmailStatusIndicator currEmailStatus={currEmailStatus} />
+      </div>
 
       <Link href="/">
         <a>Go back home</a>
