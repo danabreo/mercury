@@ -73,6 +73,10 @@ export default function AddList(): JSX.Element {
         />
       </div>
 
+      <Link href="/mailinglists">
+        <a>Manage mailing lists</a>
+      </Link>
+
       <Link href="/">
         <a>Go back home</a>
       </Link>

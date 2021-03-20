@@ -14,7 +14,8 @@ export default function MailingLists(): JSX.Element {
     }>;
   }>('/api/mailinglists', fetch);
 
-  if (error) return <div>failed to load mailing lists... check the API key</div>;
+  if (error)
+    return <div>failed to load mailing lists... check the API key</div>;
   if (!data) return <div>loading mailing lists...</div>;
 
   return (
