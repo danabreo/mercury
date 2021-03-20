@@ -15,12 +15,19 @@ export default async (
     domain: process.env.MAILGUN_DOMAIN,
   });
   return new Promise(() => {
-    mailgun.post('/lists', req.body, function (error, body) {
-      if (error) {
-        res.status(500).json(error);
-      } else {
-        res.status(200).json(body);
-      }
-    });
+    mailgun.post(
+      '/lists',
+      {
+        ...req.body,
+        address: `${req.body.address}@${process.env.MAILGUN_DOMAIN}`,
+      },
+      function (error, body) {
+        if (error) {
+          res.status(500).json(error);
+        } else {
+          res.status(200).json(body);
+        }
+      },
+    );
   });
 };
