@@ -10,6 +10,9 @@ export default function Home(): JSX.Element {
         <Link href="/messages/send">
           <a>Send an email</a>
         </Link>
+        <Link href="/mailinglists">
+          <a>Manage mailing lists</a>
+        </Link>
       </main>
     </div>
   );

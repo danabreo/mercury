@@ -15,7 +15,7 @@ export default async (
     domain: process.env.MAILGUN_DOMAIN,
   });
   return new Promise(() => {
-    mailgun.messages().send(req.body, (error, body) => {
+    mailgun.post('/lists', req.body, function (error, body) {
       if (error) {
         res.status(500).json(error);
       } else {
