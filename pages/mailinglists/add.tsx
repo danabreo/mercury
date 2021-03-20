@@ -42,7 +42,7 @@ export default function AddList(): JSX.Element {
           <Form>
             <div>
               <label htmlFor="address">Address</label>
-              <Field name="address" placeholder="mailing_list_name@" />
+              <Field name="address" placeholder="mailing_list_name" />
             </div>
 
             <div>
